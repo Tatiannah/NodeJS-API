@@ -108,7 +108,7 @@ class Controller {
             const moyenne = data.moyenne || post.moyenne;
 
             await DB.execute(
-                "UPDATE `etudiant` SET `nom`=?, `moyenne`=?,`observation`= CASE WHEN ? < 5 THEN 'insuffisant' WHEN ? <10 AND ? >5 THEN 'moyen' WHEN ? > 10 THEN 'admis' END  WHERE `numEtudiant`=?",
+                "UPDATE `etudiant` SET `nom`=?, `moyenne`=?,`observation`= CASE WHEN ? < 5 THEN 'insuffisant' WHEN ? <10 AND ? >=5 THEN 'moyen' WHEN ? >= 10 THEN 'admis' END  WHERE `numEtudiant`=?",
                 [nom,moyenne,moyenne,moyenne,moyenne,moyenne,data.numEtudiant]
             );
             res.json({
