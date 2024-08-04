@@ -19,11 +19,11 @@ class Controller {
     };
 
     static create = async (req, res, next) => {
-        const { nom, moyenne } = matchedData(req);
+        const { numEtudiant,nom, moyenne } = matchedData(req);
         try {
             const [result] = await DB.execute(
-                "INSERT INTO `etudiant` (`nom`,`moyenne`,`observation`) VALUES (?,?,CASE WHEN ? < 5 THEN 'insuffisant' WHEN ? <10 AND ? >5 THEN 'moyen' WHEN ? > 10 THEN 'admis' END)",
-                [nom,parseInt(moyenne),moyenne,moyenne,moyenne,moyenne]
+                "INSERT INTO `etudiant` (`numEtudiant`,`nom`,`moyenne`,`observation`) VALUES (?,?,?,CASE WHEN ? < 5 THEN 'exclu' WHEN ? <10 AND ? >=5 THEN 'redoublant' WHEN ? >= 10 THEN 'admis' END)",
+                [parseInt(numEtudiant),nom,parseInt(moyenne),moyenne,moyenne,moyenne,moyenne]
             );
             res.status(201).json({
                 ok: 1,
@@ -52,7 +52,7 @@ class Controller {
             const { maximum, moyenne, minimum } = rows[0];
     
             // Formater le texte brut
-            const textResponse = `Statistiques des moyennes :\nMaximum: ${maximum}\nMinimum: ${minimum}`;
+            const textResponse = `Statistiques des moyennes :\nMaximum: ${maximum}/20\nMoyenne de la classe: ${Math.round(moyenne)} (${moyenne})/20\nMinimum: ${minimum}/20 `;
     
             // Envoyer la réponse en tant que texte brut
             res.status(200).send(textResponse);
@@ -108,7 +108,7 @@ class Controller {
             const moyenne = data.moyenne || post.moyenne;
 
             await DB.execute(
-                "UPDATE `etudiant` SET `nom`=?, `moyenne`=?,`observation`= CASE WHEN ? < 5 THEN 'insuffisant' WHEN ? <10 AND ? >=5 THEN 'moyen' WHEN ? >= 10 THEN 'admis' END  WHERE `numEtudiant`=?",
+                "UPDATE `etudiant` SET `nom`=?, `moyenne`=?,`observation`= CASE WHEN ? < 5 THEN 'exclu' WHEN ? <10 AND ? >=5 THEN 'redoublant' WHEN ? >= 10 THEN 'admis' END  WHERE `numEtudiant`=?",
                 [nom,moyenne,moyenne,moyenne,moyenne,moyenne,data.numEtudiant]
             );
             res.json({

@@ -25,10 +25,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          
+          <br>
+          <span class="input-group-text" id="addon-wrapping">Numero de l'étudiant</span>
+          <input type="text" class="form-control" name="AddNum" id="AddNum"  aria-label="Numero de l'étudiant" aria-describedby="addon-wrapping">
+          <br>
           <span class="input-group-text" id="addon-wrapping">Nom de l'étudiant</span>
           <input type="text" class="form-control" name="Addname" id="Addname"  aria-label="Username" aria-describedby="addon-wrapping">
-
+          <br>
           <span class="input-group-text" id="addon-wrapping">Moyenne</span>
           <input type="text" class="form-control" name="Addmean" id="Addmean"  aria-label="Username" aria-describedby="addon-wrapping">
         </div>
@@ -71,7 +74,7 @@
           <input class="input-group-text" style="display: none;" name="idEtudiant" disabled id="idEtudiant">
           <span class="input-group-text" id="addon-wrapping">Nom de l'étudiant</span>
           <input type="text" class="form-control" name="Newname" id="Newname"  aria-label="Username" aria-describedby="addon-wrapping">
-
+          <br>
           <span class="input-group-text" id="addon-wrapping">Moyenne</span>
           <input type="text" class="form-control" name="Newmean" id="Newmean"  aria-label="Username" aria-describedby="addon-wrapping">
         </div>
@@ -201,8 +204,10 @@
     async function AddData(){
       var Newname = document.getElementById('Addname').value
       var Newmean = document.getElementById('Addmean').value
+      var NewmNum = document.getElementById('AddNum').value
       
         const data = {
+            "numEtudiant" : NewmNum,
             "nom" : Newname,
             "moyenne" : Newmean
           }
@@ -210,7 +215,7 @@
           const url = `http://localhost:3000/create`;
           const responsex = await axios.post(url, data);
 
-        swal("Good job!", "Le donnée de votre élève a été inséré avec usscès", "success");
+        swal("Good job!", "Le donnée de votre élève a été inséré avec suscès", "success");
         setTimeout(function() {
             location.reload();
         }, 1000);

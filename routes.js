@@ -7,7 +7,7 @@ const routes = Router({ strict: true });
 // Create Data
 routes.post(
     "/create",
-    [
+    [   body("numEtudiant", "Must not be empty.").trim().not().isEmpty().escape(),
         body("nom", "Must not be empty.").trim().not().isEmpty().escape(),
         body("moyenne", "Must not be empty.").trim().not().isEmpty().escape(),
        /* body("author", "Must not be empty.").trim().not().isEmpty().escape(),*/
